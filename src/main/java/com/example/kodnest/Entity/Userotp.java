@@ -1,5 +1,7 @@
 package com.example.kodnest.Entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,16 +23,20 @@ public class Userotp {
 	@Column
 	int userId;
 	
+	@Column
+	LocalDateTime createdTime;
+
 	public Userotp() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Userotp(int otpid, String otp, int userId) {
+	public Userotp(int otpid, String otp, int userId, LocalDateTime createdTime) {
 		super();
 		this.otpid = otpid;
 		this.otp = otp;
 		this.userId = userId;
+		this.createdTime = createdTime;
 	}
 
 	public int getOtpid() {
@@ -55,6 +61,14 @@ public class Userotp {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public LocalDateTime getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(LocalDateTime createdTime) {
+		this.createdTime = createdTime;
 	}
 	
 	

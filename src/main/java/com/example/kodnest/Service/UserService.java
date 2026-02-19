@@ -1,5 +1,6 @@
 package com.example.kodnest.Service;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,14 @@ public class UserService {
 		Userotp userOtp=new Userotp();
 		userOtp.setOtp(otp);
 		userOtp.setUserId(user.getId());
+		userOtp.setCreatedTime(LocalDateTime.now());
+		
 		userOtpRepo.save(userOtp);
 		
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(user.getEmail());
 		message.setSubject("Your OTP code");
-		message.setText("Hello " + user.getName() +". Your OTP cade is: " + otp);
+		message.setText("Hello " + user.getName() +". Your OTP code is: " + otp + ". This Otp Expires in 2 mins. ThankYou🤷‍♂️");
 		mailSender.send(message);
 		return true;
 	}
@@ -59,8 +62,10 @@ public class UserService {
 		if(userOtp == null) {
 			return false;
 		}
-		else {
-			return true;
+		LocalDateTime expiryTime = userOtp.getCreatedTime().plusMinutes(2);
+		if (LocalDateTime.now().isAfter(expiryTime)) {
+			return false;
 		}
+		return true;
 	}
 }
